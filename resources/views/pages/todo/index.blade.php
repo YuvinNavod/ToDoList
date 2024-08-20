@@ -47,6 +47,7 @@
                             <td>
                                 <a href="{{ route('todo.delete', $task->id )}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                 <a href="{{ route('todo.done', $task->id )}}" class="btn btn-success"><i class="fa-solid fa-circle-check"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-primary" onclick="taskEditModal({{ $task->id  }})"><i class="fa-solid fa-pencil"></i></a>
                             </td>
                           </tr>
                         @endforeach
@@ -56,6 +57,25 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="taskEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="taskEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="taskEditLabel">Main Task Edit</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="taskEditContent">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('css')
@@ -66,4 +86,28 @@
         color: rgb(13 110 253);
     }
 </style>
+@endpush
+
+@push('js')
+<script>
+    function taskEditModal(task_id){
+        var data ={
+            task_id: task_id
+        };
+        $.ajax({
+            url:"{{ route('todo.edit') }}",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "GET",
+            dataType: '',
+            data: data,
+            success: function(response){
+                $('#taskEdit').modal('show');
+                $('#taskEditContent').html(response);
+            }
+        })
+    }
+</script>
+
 @endpush
