@@ -23,14 +23,28 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <li class=" d-flex nav-item">
+
+
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        @if (Auth:: user())
+            <form method="POST" action="{{ route('logout') }}" x-data>
+                @csrf
+
+                <x-responsive-nav-link href="{{ route('logout') }}"
+                               @click.prevent="$root.submit();">
+                    {{ __('Log Out') }}
+                </x-responsive-nav-link>
+            </form>
+
+            @else
+            <li class=" nav-item">
+                 <a href="{{ route('login') }}">Login</a>
+            </li><li class="nav-item">
+                <span> <a href="{{ route('register') }}">Register</a></span>
+            </li>
+            @endif
       </div>
     </div>
   </nav>

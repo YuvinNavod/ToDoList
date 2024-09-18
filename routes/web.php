@@ -10,7 +10,7 @@ Route::get('/', [HomeController::class, "index"])->name('home');
 
 //Todo
 Route :: prefix('/todo')->group(function(){
-    Route::get('/', [TodoController::class, "index"])->name('todo')->middleware('auth');;
+    Route::get('/', [TodoController::class, "index"])->name('todo')->middleware('auth');
     Route::post('/store', [TodoController::class, "store"])->name('todo.store');
     Route::get('/{task_id}/delete', [TodoController::class, "delete"])->name('todo.delete');
     Route::get('/{task_id}/done', [TodoController::class, "done"])->name('todo.done');

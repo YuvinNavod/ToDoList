@@ -1,12 +1,9 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace domain\Services;
 
 use App\Models\Todo;
-use domain\Facade\TodoFacade;
-use Illuminate\Http\Request;
 
-class TodoController extends ParentController
+class TodoService
 {
     protected $task;
 
@@ -15,27 +12,20 @@ class TodoController extends ParentController
         $this->task = new Todo();
     }
 
-    public function index()
+    public function all()
     {
-        $response['tasks']= TodoFacade::all();
-        //dd($response);
-        return view('pages.todo.index')->with($response);
+        return $this->task->all();
     }
 
-    public function store(Request $request)
+    public function store( $data)
     {
-        //dydom
-        //dd($request);
-
-        TodoFacade::store($request->all());
-        //return redirect()->route('todo'); or
-        return redirect()->back();
+        $this->task->create($data);
     }
 
     public function delete ($task_id)
     {
-        TodoFacade::delete($task_id);
-        return redirect()->back();
+        $task= $this->task->find($task_id);
+        $task->delete();
     }
 
     public function done ($task_id)
@@ -43,8 +33,9 @@ class TodoController extends ParentController
         $task= $this->task->find($task_id);
         $task->done= 1;
         $task->update();
-        return redirect()->back();
     }
+
+    /*
     public function edit (Request $request)
     {
         $response['task']= $this->task->find($request->task_id);
@@ -57,4 +48,5 @@ class TodoController extends ParentController
         $task->update($request->all());
         return redirect()->route('todo');
     }
+*/
 }
