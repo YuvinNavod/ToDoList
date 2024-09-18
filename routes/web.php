@@ -10,7 +10,7 @@ Route::get('/', [HomeController::class, "index"])->name('home');
 
 //Todo
 Route :: prefix('/todo')->group(function(){
-    Route::get('/', [TodoController::class, "index"])->name('todo');
+    Route::get('/', [TodoController::class, "index"])->name('todo')->middleware('auth');;
     Route::post('/store', [TodoController::class, "store"])->name('todo.store');
     Route::get('/{task_id}/delete', [TodoController::class, "delete"])->name('todo.delete');
     Route::get('/{task_id}/done', [TodoController::class, "done"])->name('todo.done');
@@ -20,12 +20,3 @@ Route :: prefix('/todo')->group(function(){
 });
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
