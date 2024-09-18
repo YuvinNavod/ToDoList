@@ -40,12 +40,10 @@ class TodoController extends ParentController
 
     public function done ($task_id)
     {
-        $task= $this->task->find($task_id);
-        $task->done= 1;
-        $task->update();
+        TodoFacade::done($task_id);
         return redirect()->back();
     }
-    public function edit (Request $request)
+    /*public function edit (Request $request)
     {
         $response['task']= $this->task->find($request->task_id);
         //$response['task']=TodoFacade::get($request['task_id']);
@@ -56,5 +54,5 @@ class TodoController extends ParentController
         $task= $this->task->find($task_id);
         $task->update($request->all());
         return redirect()->route('todo');
-    }
+    }*/
 }
